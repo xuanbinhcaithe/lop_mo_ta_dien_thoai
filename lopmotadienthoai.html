@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lớp mô tả điện thoại</title>
+</head>
+<body>
+   <script>
+       function Mobile(){
+        this.battery=100;
+        this.memoryTexing=[];
+        this.memoryInbox=[];
+        this.memorySent=[];
+        this.isOn=false;
+        this.decreaseBaatery=function () {
+            if (this.battery>0) {
+                this.battery--;
+            }else {
+                this.isOn=false;
+            }
+        };
+        this.getBattery=function () {
+            return this.battery;
+        }
+        this.status=function () {
+           return this.isOn;
+        };
+        this.setStatus=function () {
+            this.isOn=!this.isOn;
+        };
+        this.setBattery=function () {
+            if (this.battery<100) {
+                this.battery++;
+            }
+        };
+        this.geTexing=function (message) {
+            if (this.isOn) {
+                this.memoryTexing.push(message);
+                this.decreaseBaatery();
+            }
+        };
+        this.getInbox=function (message,mobile) {
+            if (this.isOn) {
+                this.memoryInbox.push(message);
+                mobile.memoryInbox.push(message);
+                this.decreaseBaatery();
+            }
+        };
+        this.getSent=function (message,mobile) {
+            if (this.isOn){
+            this.memorySent.push(message);
+            mobile.memoryInbox.push(message);
+            this.decreaseBaatery();}
+        };
+        this.viewInbox=function () {
+            if (this.isOn) {
+                return this.memoryInbox;
+                this.decreaseBaatery();
+            }
+        };
+        this.viewSent=function () {
+            if (this.isOn) {
+                return this.memorySent;
+                this.decreaseBaatery();
+            }
+        };
+       }
+
+       let nokia=new Mobile();
+       nokia.setStatus();
+       let iphone=new Mobile();
+       iphone.setStatus();
+
+       nokia.getSent("hello",iphone);
+
+        let iphoneMessage = iphone.viewInbox();
+        console.log(iphoneMessage);
+
+       iphone.getSent('xin chao nokia ',nokia);
+       console.log(nokia.viewInbox());
+
+        console.log(nokia.getBattery());
+
+
+
+   </script>
+
+</body>
+</html>
